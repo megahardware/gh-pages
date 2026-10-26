@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advogahub na Prática: Como a Solução Centraliza Processos, Inteligência Jurídica e Gestão do Escritório em um Só Lugar - Mega Hardware</title>
+    <meta name="description" content="Descubra como o Advogahub centraliza processos, inteligência jurídica e gestão do escritório, otimizando seu dia a dia em uma única plataforma.">
+    
+    
+    <link rel="canonical" href="https://www.megahardware.com.br/advogahub-na-pratica-como-a-solucao-centraliza-processos-inteligencia-juridica-e-gestao-do-escritorio-em-um-so-lugar/" />
+    
+    
+    
+
+    <link rel="stylesheet" href="/themes/gshow_pop_v2/assets/css/style.css?v=2.0">
+    <!-- Bootstrap Icons (Usado internamente pelo CMS e para redes sociais) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Algumas lógicas do CMS dependem de classes Bootstrap puras (RaioX). Injetamos a versão ultra-leve do bootstrap apenas para os blocos do CMS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Sistema de Paletas de Cores -->
+    
+    <style>
+        :root {
+            --accent-color: #0669de !important;
+            --accent-hover: #0550ab !important;
+            --accent-dark: #04408a !important;
+        }
+    </style>
+    
+
+    
+</head>
+<body>
+<header class="gs-header">
+    <div class="gs-header__container">
+        <!-- Lado Esquerdo -->
+        <div class="gs-header__left">
+            <button class="gs-header__menu-btn" id="gs-menu-toggle" aria-label="Abrir Menu">
+                <i class="bi bi-list"></i>
+                <span class="gs-header__menu-text">MENU</span>
+            </button>
+
+            <a href="/" class="gs-header__logo">
+                
+                    <span style="font-family: var(--font-heading-serif); font-weight: 900; font-size: 1.5rem;">gshow</span>
+                
+            </a>
+        </div>
+
+        <!-- Centro: Nome do Site com fonte fina -->
+        <a href="/" class="gs-header__center">
+            Mega Hardware
+        </a>
+
+        <!-- Lado Direito: Buscar -->
+        <div class="gs-header__right">
+            <button class="gs-header__right-item" id="gs-search-toggle" aria-label="Pesquisar" style="background:none; border:none; color:#fff;">
+                <i class="bi bi-search"></i>
+                <span style="text-transform: uppercase;">Buscar</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Overlay de Busca (Search Modal) -->
+<div class="gs-search-overlay" id="gs-search-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; padding:2rem;">
+    <button id="gs-search-close" style="position:absolute; top:20px; right:30px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer;"><i class="bi bi-x-lg"></i></button>
+    <div style="max-width:600px; margin: 4rem auto 0; text-align:center;">
+        <input type="text" id="gs-search-input" placeholder="O que você está procurando?" style="width:100%; padding:1rem; font-size:1.5rem; border:none; border-bottom:2px solid var(--accent-color); background:transparent; color:#fff; outline:none; font-family:var(--font-ui);">
+        <div id="gs-search-results" style="margin-top:2rem; text-align:left; max-height:60vh; overflow-y:auto; font-family:var(--font-ui);"></div>
+    </div>
+</div>
+
+<!-- Sub-Barra de Categoria (Rosa Escuro) -->
+<div class="gs-header__subbar">
+    
+        <a href="/categoria/tutoriais-e-dicas/" style="color:#ffffff;">Tutoriais e Dicas</a>
+    
+</div>
+
+<!-- Overlay Escuro do Menu -->
+<div class="gs-overlay" id="gs-overlay"></div>
+
+<!-- Menu Oculto (Offcanvas) -->
+<nav class="gs-nav-offcanvas" id="gs-offcanvas">
+    <button class="gs-nav-offcanvas__close" id="gs-menu-close" aria-label="Fechar Menu">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <br><br>
+    
+        <a href="/">INÍCIO</a>
+        
+            <a href="/categoria/carreira/">Carreira</a>
+        
+            <a href="/categoria/desenvolvimento/">Desenvolvimento</a>
+        
+            <a href="/categoria/noticias/">Notícias</a>
+        
+            <a href="/categoria/reviews-e-analises/">Reviews e Análises</a>
+        
+            <a href="/categoria/tutoriais-e-dicas/">Tutoriais e Dicas</a>
+        
+    
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- MENU HAMBURGUER LOGIC ---
+        const toggleBtn = document.getElementById('gs-menu-toggle');
+        const closeBtn = document.getElementById('gs-menu-close');
+        const offcanvas = document.getElementById('gs-offcanvas');
+        const overlay = document.getElementById('gs-overlay');
+
+        function openMenu() {
+            offcanvas.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            offcanvas.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = 'auto';
+        }
+
+        if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+        if (overlay) overlay.addEventListener('click', closeMenu);
+
+        // --- SEARCH LOGIC ---
+        const searchToggle = document.getElementById('gs-search-toggle');
+        const searchOverlay = document.getElementById('gs-search-overlay');
+        const searchClose = document.getElementById('gs-search-close');
+        const searchInput = document.getElementById('gs-search-input');
+        const searchResults = document.getElementById('gs-search-results');
+        let postsData = [];
+
+        if (searchToggle && searchOverlay) {
+            searchToggle.addEventListener('click', function() {
+                searchOverlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                searchInput.focus();
+                
+                // Fetch posts.json only once
+                if (postsData.length === 0) {
+                    fetch('/posts.json')
+                        .then(response => response.json())
+                        .then(data => { postsData = data; })
+                        .catch(err => console.error('Erro ao carregar pesquisa', err));
+                }
+            });
+            
+            searchClose.addEventListener('click', function() {
+                searchOverlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            searchInput.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                searchResults.innerHTML = '';
+                if (query.length < 2) return;
+                
+                const filtered = postsData.filter(post => post.title.toLowerCase().includes(query));
+                
+                if (filtered.length === 0) {
+                    searchResults.innerHTML = '<p style="color:#aaa; text-align:center; padding:1rem;">Nenhum resultado encontrado.</p>';
+                    return;
+                }
+                
+                filtered.forEach(post => {
+                    const link = document.createElement('a');
+                    link.href = '/' + post.slug + '/';
+                    link.style.display = 'flex';
+                    link.style.gap = '15px';
+                    link.style.alignItems = 'center';
+                    link.style.padding = '10px 0';
+                    link.style.borderBottom = '1px solid #333';
+                    link.style.color = '#fff';
+                    link.style.textDecoration = 'none';
+                    
+                    let imgHtml = post.image ? `<img src="${post.image}" style="width:60px; height:60px; object-fit:cover; border-radius:4px;">` : `<div style="width:60px; height:60px; background:#444; border-radius:4px;"></div>`;
+                    
+                    link.innerHTML = imgHtml + `<div><div style="font-size:0.8rem; color:#aaa;">${post.date || ''}</div><div style="font-weight:700;">${post.title}</div></div>`;
+                    searchResults.appendChild(link);
+                });
+            });
+        }
+    });
+</script>
+
+<main class="container" style="padding-top: 3rem;">
+    <article>
+        <header class="post-header">
+            
+            <h1 class="post-title">Advogahub na Prática: Como a Solução Centraliza Processos, Inteligência Jurídica e Gestão do Escritório em um Só Lugar</h1>
+            
+            
+                <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 0 auto 2rem; line-height: 1.5;">Descubra como o Advogahub centraliza processos, inteligência jurídica e gestão do escritório, otimizando seu dia a dia em uma única plataforma.</p>
+            
+
+            <div class="post-meta" style="margin-top: 1rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; max-width: 760px; margin-left: auto; margin-right: auto;">
+                
+                    <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
+                        
+                            <i class="bi bi-person-circle" style="font-size: 2rem; color: var(--text-muted);"></i>
+                        
+                        <span style="font-weight: 700; color: var(--text-main);">Por <a href="/autor/joao-matias/" style="color: var(--accent-color);">João Matias</a></span>
+                    </div>
+                
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem; flex: 1 1 auto;">
+                    <time datetime="2026-10-26" style="color: var(--text-muted);">
+                        26/10/2026 00:00
+                    </time>
+                    <div style="display: flex; gap: 15px; font-size: 1.3rem; color: var(--accent-color);">
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        
+            <figure class="post-featured-image">
+                <img src="/static/uploads/advogahub-na-pratica-como-a-solucao-centraliza-processos-inteligencia-juridica-e-gestao-do-escritorio-em-um-so-lugar.jpg" alt="Advogahub na Prática: Como a Solução Centraliza Processos, Inteligência Jurídica e Gestão do Escritório em um Só Lugar">
+            </figure>
+        
+
+        
+
+        <div class="post-content">
+            <p>No cen&aacute;rio jur&iacute;dico contempor&acirc;neo, a efici&ecirc;ncia e a organiza&ccedil;&atilde;o s&atilde;o elementos fundamentais para o sucesso de qualquer escrit&oacute;rio de advocacia. Com a crescente demanda por solu&ccedil;&otilde;es tecnol&oacute;gicas que otimizem o trabalho, plataformas integradas surgem como alternativas poderosas para centralizar diversas fun&ccedil;&otilde;es em um &uacute;nico ambiente digital. Entre essas solu&ccedil;&otilde;es, o <a href="https://advogahub.ai/" target="_blank" rel="noopener">Advogahub</a> se destaca por reunir <strong>processos jur&iacute;dicos, intelig&ecirc;ncia jur&iacute;dica e gest&atilde;o administrativa</strong> em uma interface intuitiva e robusta.</p>
+<p>A ado&ccedil;&atilde;o dessa ferramenta representa uma verdadeira transforma&ccedil;&atilde;o na forma como escrit&oacute;rios gerenciam suas rotinas, eliminando retrabalhos, reduzindo erros e promovendo uma vis&atilde;o ampla e estrat&eacute;gica dos casos e opera&ccedil;&otilde;es. A seguir, ser&aacute; detalhado como essa solu&ccedil;&atilde;o atua para integrar diferentes frentes jur&iacute;dicas e administrativas, agregando valor para advogados, equipes e clientes.</p>
+<h2>Centraliza&ccedil;&atilde;o Dos Processos Jur&iacute;dicos: Organiza&ccedil;&atilde;o E Controle</h2>
+<h3>Automa&ccedil;&atilde;o e Acompanhamento de Prazos</h3>
+<p>Um dos principais desafios enfrentados por escrit&oacute;rios de advocacia &eacute; o controle rigoroso dos prazos processuais. A automa&ccedil;&atilde;o oferecida pela plataforma permite que <strong>advogados monitorem todas as etapas dos processos de forma eficiente</strong>, evitando perdas e atrasos que podem comprometer resultados.</p>
+<p>Por meio de alertas customiz&aacute;veis e dashboards intuitivos, &eacute; poss&iacute;vel acompanhar movimenta&ccedil;&otilde;es, audi&ecirc;ncias e decis&otilde;es judiciais em tempo real. Isso n&atilde;o s&oacute; melhora a organiza&ccedil;&atilde;o interna, como tamb&eacute;m aumenta a confiabilidade na entrega dos servi&ccedil;os.</p>
+<h3>Centraliza&ccedil;&atilde;o de Documentos e Informa&ccedil;&otilde;es Processuais</h3>
+<p>Outro aspecto crucial &eacute; a gest&atilde;o documental. A solu&ccedil;&atilde;o viabiliza o armazenamento seguro e estruturado de arquivos, peti&ccedil;&otilde;es, contratos e demais documentos relacionados aos casos. Ter todos os dados acess&iacute;veis em um s&oacute; lugar facilita a consulta r&aacute;pida e a atualiza&ccedil;&atilde;o constante, garantindo que as informa&ccedil;&otilde;es estejam sempre atualizadas e dispon&iacute;veis para todos os membros da equipe autorizados.</p>
+<p>Al&eacute;m disso, a integra&ccedil;&atilde;o com sistemas dos tribunais permite a importa&ccedil;&atilde;o autom&aacute;tica de informa&ccedil;&otilde;es, reduzindo a necessidade de inser&ccedil;&atilde;o manual e diminuindo a margem de erro.</p>
+<h2>Intelig&ecirc;ncia Jur&iacute;dica Integrada: Tomada De Decis&atilde;o Baseada Em Dados</h2>
+<h3>An&aacute;lise de Jurisprud&ecirc;ncia e Tend&ecirc;ncias</h3>
+<p>O acesso r&aacute;pido e organizado a <strong>jurisprud&ecirc;ncia relevante</strong> &eacute; um diferencial competitivo para qualquer escrit&oacute;rio. A plataforma oferece ferramentas avan&ccedil;adas de pesquisa e an&aacute;lise que possibilitam identificar precedentes, acompanhar decis&otilde;es recentes e entender tend&ecirc;ncias do mercado jur&iacute;dico.</p>
+<p>Esses recursos permitem que advogados fundamentem melhor suas estrat&eacute;gias, aumentando as chances de sucesso em seus processos e proporcionando uma atua&ccedil;&atilde;o mais assertiva e embasada.</p>
+<h3>Relat&oacute;rios e Indicadores de Performance</h3>
+<p>A intelig&ecirc;ncia jur&iacute;dica vai al&eacute;m da pesquisa; envolve tamb&eacute;m a an&aacute;lise de dados internos do escrit&oacute;rio. Com pain&eacute;is personalizados, &eacute; poss&iacute;vel visualizar indicadores de performance, como n&uacute;mero de processos em andamento, taxa de sucesso, tempo m&eacute;dio para resolu&ccedil;&atilde;o de casos e produtividade da equipe.</p>
+<p>Essas informa&ccedil;&otilde;es s&atilde;o essenciais para ajustar rotinas, identificar gargalos e melhorar continuamente a presta&ccedil;&atilde;o de servi&ccedil;os, al&eacute;m de facilitar a presta&ccedil;&atilde;o de contas para clientes e parceiros.</p>
+<h2>Gest&atilde;o Completa Do Escrit&oacute;rio: Simplifica&ccedil;&atilde;o E Efici&ecirc;ncia Administrativa</h2>
+<h3>Gerenciamento Financeiro Integrado</h3>
+<p>A gest&atilde;o financeira &eacute; uma das &aacute;reas que mais se beneficiam da centraliza&ccedil;&atilde;o. A solu&ccedil;&atilde;o inclui funcionalidades para controle de honor&aacute;rios, emiss&atilde;o de boletos, acompanhamento de pagamentos e fluxo de caixa.</p>
+<p>Com essas ferramentas, os gestores t&ecirc;m uma vis&atilde;o clara da sa&uacute;de financeira do escrit&oacute;rio, podendo planejar investimentos e controlar despesas com maior precis&atilde;o e agilidade.</p>
+<h3>Controle de Agenda e Tarefas</h3>
+<p>Manter o time alinhado e com as tarefas organizadas &eacute; fundamental para a produtividade. A plataforma oferece agendas compartilhadas, listas de tarefas e lembretes, facilitando o planejamento di&aacute;rio e o cumprimento de prazos.</p>
+<p>Esse controle integrado evita sobreposi&ccedil;&otilde;es e esquecimentos, promovendo uma rotina mais harmoniosa e eficiente para todos os colaboradores.</p>
+<h3>Gest&atilde;o de Clientes e Relacionamento</h3>
+<p>O relacionamento com clientes &eacute; uma pe&ccedil;a-chave para a fideliza&ccedil;&atilde;o e o crescimento do neg&oacute;cio jur&iacute;dico. A solu&ccedil;&atilde;o re&uacute;ne informa&ccedil;&otilde;es de contato, hist&oacute;rico de atendimentos, demandas e contratos em um banco de dados organizado.</p>
+<p>Com essa vis&atilde;o 360 graus do cliente, os advogados podem personalizar o atendimento, antecipar necessidades e fortalecer a confian&ccedil;a, gerando maior satisfa&ccedil;&atilde;o e oportunidades de novos neg&oacute;cios.</p>
+<h2>Benef&iacute;cios Da Centraliza&ccedil;&atilde;o Para Escrit&oacute;rios De Todos Os Tamanhos</h2>
+<h3>Otimiza&ccedil;&atilde;o do Tempo e Redu&ccedil;&atilde;o de Custos</h3>
+<p>Ao consolidar diversas fun&ccedil;&otilde;es em um &uacute;nico sistema, elimina-se a necessidade de m&uacute;ltiplas ferramentas e processos manuais. Isso gera uma economia significativa de tempo e recursos, al&eacute;m de diminuir a incid&ecirc;ncia de erros que podem resultar em preju&iacute;zos financeiros ou reputacionais.</p>
+<h3>Melhoria na Comunica&ccedil;&atilde;o e Colabora&ccedil;&atilde;o</h3>
+<p>A integra&ccedil;&atilde;o favorece a comunica&ccedil;&atilde;o interna e o trabalho colaborativo, permitindo que equipes compartilhem informa&ccedil;&otilde;es, documentos e atualiza&ccedil;&otilde;es instantaneamente. Essa transpar&ecirc;ncia aumenta o engajamento e a efici&ecirc;ncia dos profissionais, impactando diretamente na qualidade dos servi&ccedil;os prestados.</p>
+<h3>Escalabilidade e Flexibilidade</h3>
+<p>A solu&ccedil;&atilde;o &eacute; adapt&aacute;vel &agrave;s demandas espec&iacute;ficas de cada escrit&oacute;rio, seja ele pequeno, m&eacute;dio ou grande. Conforme o crescimento, &eacute; poss&iacute;vel agregar novos usu&aacute;rios, funcionalidades e customiza&ccedil;&otilde;es, mantendo a flexibilidade necess&aacute;ria para acompanhar as mudan&ccedil;as do mercado.</p>
+<h2>Implementa&ccedil;&atilde;o E Ado&ccedil;&atilde;o: Como Potencializar A Ferramenta Na Pr&aacute;tica</h2>
+<h3>Capacita&ccedil;&atilde;o da Equipe</h3>
+<p>Para extrair o m&aacute;ximo potencial da plataforma, &eacute; fundamental investir em treinamento e capacita&ccedil;&atilde;o dos colaboradores. Com um entendimento claro das funcionalidades e benef&iacute;cios, a equipe se torna mais produtiva e engajada na transforma&ccedil;&atilde;o digital.</p>
+<h3>Personaliza&ccedil;&atilde;o dos Fluxos de Trabalho</h3>
+<p>Cada escrit&oacute;rio possui suas particularidades e m&eacute;todos de trabalho. A personaliza&ccedil;&atilde;o dos fluxos dentro da solu&ccedil;&atilde;o possibilita alinhar a ferramenta &agrave;s rotinas existentes, facilitando a adapta&ccedil;&atilde;o e promovendo uma transi&ccedil;&atilde;o suave.</p>
+<h3>Monitoramento Cont&iacute;nuo e Ajustes</h3>
+<p>A implementa&ccedil;&atilde;o n&atilde;o termina com a ado&ccedil;&atilde;o inicial. O monitoramento constante dos resultados e a realiza&ccedil;&atilde;o de ajustes garantem que a plataforma continue atendendo &agrave;s necessidades do escrit&oacute;rio de forma eficaz, acompanhando as evolu&ccedil;&otilde;es do mercado e da legisla&ccedil;&atilde;o.</p>
+<h2>Casos De Sucesso E Depoimentos Reais</h2>
+<p>Diversos escrit&oacute;rios t&ecirc;m relatado melhorias significativas ap&oacute;s a centraliza&ccedil;&atilde;o de seus processos e gest&atilde;o em uma &uacute;nica plataforma. Entre os benef&iacute;cios destacados est&atilde;o:</p>
+<p>- Redu&ccedil;&atilde;o de at&eacute; 40% no tempo gasto com tarefas administrativas.</p>
+<p>- Aumento da taxa de sucesso em processos devido ao acesso facilitado a jurisprud&ecirc;ncia atualizada.</p>
+<p>- Maior controle financeiro e previsibilidade or&ccedil;ament&aacute;ria.</p>
+<p>- Melhor comunica&ccedil;&atilde;o interna e satisfa&ccedil;&atilde;o da equipe.</p>
+<p>Esses resultados comprovam o impacto positivo da tecnologia na rotina jur&iacute;dica, promovendo um ambiente mais organizado, eficiente e competitivo.</p>
+<h2>Futuro Da Gest&atilde;o Jur&iacute;dica: Tend&ecirc;ncias E Inova&ccedil;&otilde;es</h2>
+<p>A digitaliza&ccedil;&atilde;o e integra&ccedil;&atilde;o de processos n&atilde;o param de evoluir. Tecnologias emergentes como intelig&ecirc;ncia artificial, automa&ccedil;&atilde;o avan&ccedil;ada e an&aacute;lise preditiva prometem tornar a gest&atilde;o jur&iacute;dica ainda mais estrat&eacute;gica e eficiente.</p>
+<p>A ado&ccedil;&atilde;o de solu&ccedil;&otilde;es integradas posiciona os escrit&oacute;rios &agrave; frente, preparados para enfrentar desafios complexos e atender clientes cada vez mais exigentes e conectados.</p>
+<p>---</p>
+<p>Centralizar opera&ccedil;&otilde;es, intelig&ecirc;ncia jur&iacute;dica e gest&atilde;o administrativa em uma plataforma &uacute;nica transforma a rotina dos escrit&oacute;rios, tornando-os mais produtivos, organizados e competitivos. A combina&ccedil;&atilde;o dessas funcionalidades oferece um diferencial crucial para quem busca inova&ccedil;&atilde;o e excel&ecirc;ncia no setor jur&iacute;dico.</p>
+        </div>
+
+        
+    </article>
+</main>
+
+<footer class="gs-footer">
+    <div class="container">
+        <div class="gs-footer__social">
+            
+            
+            
+            
+        </div>
+        
+        <ul class="gs-footer__menu">
+            
+        </ul>
+        
+        
+        <div class="gs-footer__copyright">
+            © 2026 Meu Site - Todos os direitos reservados.
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Carrossel nativo simplificado (substituto das chamadas de script originais caso tenha blocos CMS)
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            const btnPrev = e.target.closest('.btn-carousel-prev');
+            if (btnPrev) {
+                const wrapper = btnPrev.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft <= 5) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+            const btnNext = e.target.closest('.btn-carousel-next');
+            if (btnNext) {
+                const wrapper = btnNext.closest('div[id^="carrossel-"]');
+                const track = wrapper.querySelector('.dsc-track');
+                const item = track.querySelector('.dsc-item');
+                if (track && item) {
+                    const scrollAmount = item.offsetWidth + 20;
+                    if (track.scrollLeft + track.offsetWidth >= track.scrollWidth - 5) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+                    else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+                }
+                return;
+            }
+        });
+    });
+</script>
+</body>
+</html>
